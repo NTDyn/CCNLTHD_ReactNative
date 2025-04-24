@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ToastAndroid, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import Colors from '../utils/Colors';
 import ColorPicker from '../components/ColorPicker';
@@ -16,9 +16,11 @@ export default function AddNewCategory() {
     const [selectedColor, setSelectedColor] = useState(Colors.PURPLE)
     const [categoryName, setCategoryName] = useState();
     const [totalBudget, setTotalBudget] = useState();
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const onCreateCategory = async () => {
+        setLoading(true)
         const user = await getData('user');
         const { data, error } = await supabase
             .from('Category')
@@ -30,7 +32,7 @@ export default function AddNewCategory() {
                 created_by: JSON.parse(user).username
             }])
             .select()
-        console.log(data)
+
         if (data) {
             router.replace({
                 pathname: '/category-detail',
@@ -38,7 +40,11 @@ export default function AddNewCategory() {
                     categoryId: data[0].id
                 }
             })
+            setLoading(false)
             Alert.alert('Success', 'Category Created!', [{ text: 'OK' }]);
+        }
+        if (error) {
+            setLoading(false)
         }
     }
 
@@ -94,16 +100,20 @@ export default function AddNewCategory() {
             </View>
             <TouchableOpacity
                 style={styles.buttonCreate}
-                disabled={!categoryName || !totalBudget}
+                disabled={!categoryName || !totalBudget || loading}
                 onPress={() => { onCreateCategory() }}
             >
-                <Text
-                    style={{
-                        textAlign: 'center',
-                        fontSize: 18,
-                        color: Colors.WHITE
-                    }}
-                >Create</Text>
+                {loading ?
+                    <ActivityIndicator style={{ color: Colors.WHITE }}></ActivityIndicator>
+                    :
+                    <Text
+                        style={{
+                            textAlign: 'center',
+                            fontSize: 18,
+                            color: Colors.WHITE
+                        }}
+                    >Create</Text>
+                }
             </TouchableOpacity>
         </View>
 

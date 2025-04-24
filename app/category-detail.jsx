@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter, Link } from 'expo-router'
 import { supabase } from '../utils/SupabaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
 import CourseInfo from '../components/CourseDetail/CourseInfo';
 import Colors from '../utils/Colors';
+import CourseItemList from '../components/CourseDetail/CourseItemList';
 
 export default function CategoryDetail() {
 
@@ -42,9 +43,23 @@ export default function CategoryDetail() {
             <CourseInfo
                 categoryData={categoryData}
             ></CourseInfo>
-            <TouchableOpacity style={styles.floatingBtn}>
+            <CourseItemList
+                categoryData={categoryData}
+                setUpdateRecord={() => getCategoryDetail()}
+            >
+
+            </CourseItemList>
+            <Link
+                style={styles.floatingBtn}
+                href={{
+                    pathname: '/add-category-item',
+                    params: {
+                        categoryId: categoryData.id
+                    }
+                }}
+            >
                 <Ionicons name="add-circle" size={54} color={Colors.PRIMARY} />
-            </TouchableOpacity>
+            </Link>
         </View >
 
 

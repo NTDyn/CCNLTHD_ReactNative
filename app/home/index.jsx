@@ -18,10 +18,7 @@ export default function Home() {
     useEffect(() => {
         getCategoryList();
     }, [])
-    const handleLogout = async () => {
-        await storeData('login', 'false');  // Xoá thông tin đăng nhập
-        router.replace('login/auth');           // Chuyển hướng về trang login
-    }
+
 
     const getCategoryList = async () => {
         setLoading(true)
@@ -66,7 +63,9 @@ export default function Home() {
                         padding: 20,
                         marginTop: -75
                     }}>
-                    <CircularChart></CircularChart>
+                    <CircularChart
+                        CategoryData={CategoryData}
+                    ></CircularChart>
                     <CategoryList
                         CategoryData={CategoryData}
                     ></CategoryList>

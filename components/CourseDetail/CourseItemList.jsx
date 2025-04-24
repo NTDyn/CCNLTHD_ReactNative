@@ -1,10 +1,37 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 'react-native'
+import React, { useState } from 'react'
 import Colors from '../../utils/Colors'
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Feather from '@expo/vector-icons/Feather';
+import { supabase } from '../../utils/SupabaseConfig';
 
-export default function CourseItemList({ categoryData }) {
+export default function CourseItemList({ categoryData, setUpdateRecord }) {
 
-    console.log(categoryData)
+    const [expandItem, setExpandItem] = useState();
+
+    const onDeleteItem = async (id) => {
+        Alert.alert('Are you sure', 'Do you really want to delete this item', [
+            {
+                text: 'Cancel',
+                style: 'cancel'
+            },
+            {
+                text: 'Yes',
+                style: 'destructive',
+                onPress: async () => {
+                    const { error } = await supabase
+                        .from('CategoryItems')
+                        .delete()
+                        .eq('id', id);
+
+                    Alert.alert('Success', 'Item was deleted!')
+                    setUpdateRecord(true)
+                }
+            }
+        ])
+
+    }
+
     return (
         <View
             style={styles.container}
@@ -14,8 +41,9 @@ export default function CourseItemList({ categoryData }) {
                 marginTop: 20
             }}>
                 {categoryData?.CategoryItems?.length > 0 ? categoryData?.CategoryItems.map((item, index) => (
-                    <>
-                        <View key={index}
+                    <React.Fragment key={index}>
+                        <TouchableOpacity
+                            onPress={() => setExpandItem(index)}
                             style={styles.itemContainer}
                         >
                             <Image
@@ -32,12 +60,20 @@ export default function CourseItemList({ categoryData }) {
 
                                     {item.name}
                                 </Text>
-                                <Text style={styles.url}>{item.url}</Text>
+                                <Text style={styles.note}>{item.note}</Text>
                             </View>
                             <Text style={styles.cost}>${item.cost}</Text>
-                        </View>
+                        </TouchableOpacity>
+                        {expandItem == index &&
+                            <View style={styles.actionItemContainer}>
+                                <TouchableOpacity onPress={() => onDeleteItem(item)}>
+                                    <FontAwesome name="trash-o" size={24} color="red" />
+                                </TouchableOpacity>
+
+                            </View>
+                        }
                         {categoryData?.CategoryItems.length - 1 != index &&
-                            <View
+                            <View key={index}
                                 style={{
                                     borderWidth: 0.5,
                                     marginTop: 10,
@@ -46,7 +82,7 @@ export default function CourseItemList({ categoryData }) {
                                 }}
                             ></View>
                         }
-                    </>
+                    </React.Fragment>
                 )) :
                     <Text style={styles.noItemText}>No item found</Text>
                 }
@@ -71,15 +107,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10
     },
     name: {
         fontSize: 20,
         fontWeight: 'bold'
     },
-    url: {
+    note: {
         fontWeight: 'bold',
-        color: Colors.GRAY
+        color: Colors.BLACK
     },
     cost: {
         fontWeight: 'bold',
@@ -91,5 +128,11 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         color: Colors.GRAY
+    },
+    actionItemContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        gap: 10
     }
 })

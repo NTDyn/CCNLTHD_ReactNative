@@ -20,7 +20,14 @@ export default function Layout() {
           headerTitle: 'Add New Category'
         }}
       ></Stack.Screen>
-
+      <Stack.Screen
+        name='add-category-item'
+        options={{
+          presentation: 'modal',
+          headerShown: true,
+          headerTitle: 'Add New Item'
+        }}
+      ></Stack.Screen>
     </Stack>
 
 

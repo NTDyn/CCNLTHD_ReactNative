@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Colors from '../utils/Colors'
 import { useRouter } from 'expo-router'
+import { formatCurrency } from '../utils/FormatCurrency'
 
 export default function CategoryList({ CategoryData }) {
 
@@ -13,6 +14,16 @@ export default function CategoryList({ CategoryData }) {
                 categoryId: category.id
             }
         })
+    }
+
+    const calculateTotalCost = (category) => {
+        let total = 0;
+        category?.CategoryItems?.forEach(item => {
+
+            total = total + item.cost
+        })
+        let leftCost = category?.assigned_budget - total;
+        return leftCost;
     }
     return (
         <View
@@ -42,9 +53,9 @@ export default function CategoryList({ CategoryData }) {
                         >
                             <View>
                                 <Text style={styles.categoryText}>{category.name}</Text>
-                                <Text style={styles.itemCount}>{category.CategoryItems?.length} Items</Text>
+                                <Text style={styles.itemCount}>{category?.CategoryItems?.length} Items</Text>
                             </View>
-                            <Text style={styles.totalAmountText}>60</Text>
+                            <Text style={styles.totalAmountText}>{formatCurrency(calculateTotalCost(category))}</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -89,8 +100,8 @@ const styles = StyleSheet.create({
         width: '70%'
     },
     totalAmountText: {
-        fontWeight: 'bold',
-        fontSize: 20,
+        fontWeight: '700',
+        fontSize: 16,
 
     }
 })

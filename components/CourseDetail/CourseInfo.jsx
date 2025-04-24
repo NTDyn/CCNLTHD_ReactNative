@@ -1,13 +1,21 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Entypo from '@expo/vector-icons/Entypo';
 import Colors from '../../utils/Colors';
 import CourseItemList from './CourseItemList';
+import { supabase } from '../../utils/SupabaseConfig';
+import { useRouter } from 'expo-router';
 
 export default function CourseInfo({ categoryData }) {
 
+    const router = useRouter();
     const [totalCost, setTotalCost] = useState();
     const [percTotal, setPerTotal] = useState();
+
+    useEffect(() => {
+        categoryData && calculateTotalPerc();
+    }, [categoryData])
+
     const calculateTotalPerc = () => {
         let total = 0;
         categoryData?.CategoryItems?.forEach(item => {
@@ -17,9 +25,34 @@ export default function CourseInfo({ categoryData }) {
         const perc = total / categoryData.assigned_budget * 100
         setPerTotal(perc)
     }
-    useEffect(() => {
-        categoryData && calculateTotalPerc();
-    }, [categoryData])
+
+    const onDeleteCategory = async () => {
+        Alert.alert('Are you sure', 'Do you really want to delete this category', [
+            {
+                text: 'Cancel',
+                style: 'cancel'
+            },
+            {
+                text: 'Yes',
+                style: 'destructive',
+                onPress: async () => {
+                    const { error } = await supabase
+                        .from('CategoryItems')
+                        .delete()
+                        .eq('category_id', categoryData.id);
+
+                    await supabase
+                        .from('Category')
+                        .delete()
+                        .eq('id', categoryData.id)
+
+                    Alert.alert('Success', 'Category Deleted!')
+                    router.replace('/(tabs)')
+                }
+            }
+        ])
+    }
+
     return (
         <View>
             <View style={styles.container}>
@@ -35,7 +68,9 @@ export default function CourseInfo({ categoryData }) {
                     <Text style={styles.categoryName}>{categoryData.name}</Text>
                     <Text style={styles.categoryItemText}>{categoryData.CategoryItems?.length} Items</Text>
                 </View>
-                <Entypo name="trash" size={24} color="red" />
+                <TouchableOpacity onPress={() => onDeleteCategory()}>
+                    <Entypo name="trash" size={24} color="red" />
+                </TouchableOpacity>
             </View>
             <View style={styles.amountContainer}>
                 <Text style={{ fontWeight: '700' }}>${totalCost}</Text>
@@ -46,9 +81,7 @@ export default function CourseInfo({ categoryData }) {
 
                 </View>
             </View>
-            <CourseItemList
-                categoryData={categoryData}
-            ></CourseItemList>
+
         </View>
     )
 }
@@ -93,6 +126,7 @@ const styles = StyleSheet.create({
     progressBarSubContainer: {
         backgroundColor: Colors.PRIMARY,
         borderRadius: 99,
-        height: 15
+        height: 15,
+        maxWidth: '100%'
     }
 })
