@@ -12,7 +12,6 @@ const ProfileScreen = ({ navigation }) => {
         const acc = await getData('user');
         if (acc) {
             setUser(JSON.parse(acc));
-            console.log(acc)
         }
 
     }
@@ -30,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
     const handleLogout = async () => {
         await storeData('login', 'false');  // Xoá thông tin đăng nhập
         await storeData('user', 'false');
-        router.replace('/login/auth');           // Chuyển hướng về trang login
+        router.replace('../login');           // Chuyển hướng về trang login
     }
 
     return (

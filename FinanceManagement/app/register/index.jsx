@@ -45,18 +45,19 @@ const RegisterScreen = ({ navigation }) => {
 
         if (data) {
             Alert.alert('Success', 'Account created!')
+            router.replace('/login/auth');
         }
-        router.replace('/login/auth');
+
     };
 
     return (
         <View style={styles.container}>
 
 
-            <Text style={styles.title}>Đăng ký tài khoản</Text>
+            <Text style={styles.title}>Register</Text>
 
             <TextInput
-                label="Họ và tên"
+                label="Name"
                 mode="outlined"
                 style={styles.input}
                 value={name}
@@ -73,7 +74,7 @@ const RegisterScreen = ({ navigation }) => {
             />
 
             <TextInput
-                label="Mật khẩu"
+                label="Password"
                 mode="outlined"
                 right={
                     <TextInput.Icon
@@ -88,7 +89,7 @@ const RegisterScreen = ({ navigation }) => {
             />
 
             <TextInput
-                label="Nhập lại mật khẩu"
+                label="Retype password"
                 mode="outlined"
                 right={
                     <TextInput.Icon
@@ -112,9 +113,9 @@ const RegisterScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.loginContainer}>
-                <Text style={styles.loginText}>Đã có tài khoản?</Text>
+                <Text style={styles.loginText}>Do you have an account?</Text>
                 <TouchableOpacity onPress={() => router.replace('/login/auth')}>
-                    <Text style={styles.loginLink}> Đăng nhập ngay</Text>
+                    <Text style={styles.loginLink}> Login now</Text>
                 </TouchableOpacity>
             </View>
         </View>

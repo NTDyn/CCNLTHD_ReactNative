@@ -12,10 +12,9 @@ export const getData = async (key) => {
         const value = await AsyncStorage.getItem(key);
         if (value !== null) {
             return value;
-            // value previously stored
         }
     } catch (e) {
-        // error reading value
+        console.error("Error getting data:", e);
     }
 };
 
