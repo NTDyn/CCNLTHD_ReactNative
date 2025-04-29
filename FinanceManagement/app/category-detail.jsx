@@ -15,6 +15,7 @@ export default function CategoryDetail() {
     const router = useRouter()
 
     useEffect(() => {
+        console.log(categoryId);
         categoryId && getCategoryDetail();
     }, [categoryId])
 

@@ -24,13 +24,13 @@ export default function AuthScreen() {
             if (Account.password === password) {
                 await storeData('login', 'true');
                 await storeData('user', JSON.stringify(Account))
-                router.push('/')
+                router.push('/home')
             } else {
-                alert('Password is wrong. Check again please!');
+                alert('Mật khẩu không đúng. Vui lòng kiểm tra lại!');
             }
 
         } else {
-            alert('Account is not existing!');
+            alert('Tài khoản chưa tồn tại!');
         }
     };
 
@@ -38,7 +38,7 @@ export default function AuthScreen() {
         <View style={styles.container}>
 
 
-            <Text style={styles.title}>Login</Text>
+            <Text style={styles.title}>Đăng nhập</Text>
 
 
             <TextInput
@@ -51,7 +51,7 @@ export default function AuthScreen() {
                 autoCapitalize="none"
             />
             <TextInput
-                label="Password"
+                label="Mật khẩu"
                 mode="outlined"
                 right={
                     <TextInput.Icon
@@ -77,9 +77,9 @@ export default function AuthScreen() {
                 </TouchableOpacity>
             </View>
             <View style={styles.signupContainer}>
-                <Text style={styles.signupText}>Haven't have an account?</Text>
+                <Text style={styles.signupText}>Chưa có tài khoản?</Text>
                 <TouchableOpacity onPress={() => router.replace('/register')} >
-                    <Text style={styles.signupLink}> Register now!</Text>
+                    <Text style={styles.signupLink}> Đăng ký ngay</Text>
                 </TouchableOpacity>
             </View>
 
