@@ -6,7 +6,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { formatCurrency } from '@/utils/FormatCurrency';
 
 export default function CircularChart({ CategoryData }) {
-    const widthAndHeight = 150;
+
     const [totalCalEstimate, setTotalCalEstimate] = useState(0);
     const [values, setValues] = useState([1]);
     const [sliceColors, setSliceColors] = useState([Colors.GRAY]);
@@ -86,10 +86,11 @@ export default function CircularChart({ CategoryData }) {
             </Text>
             <View style={styles.subContainer}>
                 <PieChart
-                    widthAndHeight={widthAndHeight}
+                    widthAndHeight={120}
                     series={values}
                     sliceColor={sliceColors}
                     coverRadius={0.65}
+
                 />
                 {sortedCategories.length === 0 ? (
                     <View style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center' }}>
@@ -109,7 +110,7 @@ export default function CircularChart({ CategoryData }) {
                                 gap: 5,
                                 alignItems: 'center',
                                 marginBottom: 5,
-                                maxWidth: 150
+                                maxWidth: 130
                             }}>
                                 <MaterialCommunityIcons
                                     name="checkbox-blank-circle"
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         gap: 40,
-
+        padding: 5
     },
     chartNameContainer: {
 
