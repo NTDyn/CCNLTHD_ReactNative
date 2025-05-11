@@ -51,7 +51,7 @@ export default function CategoryList({ CategoryData }) {
                             style={styles.subContainer}
                         >
                             <View style={styles.textContainer}>
-                                <Text style={styles.categoryText} numberOfLines={3}>{category.name}</Text>
+                                <Text style={styles.categoryText} >{category.name}</Text>
                                 <Text style={styles.itemCount}>{category?.CategoryItems?.length} Items</Text>
                             </View>
                             <Text style={styles.totalAmountText}>{formatCurrency(calculateTotalCost(category))}</Text>

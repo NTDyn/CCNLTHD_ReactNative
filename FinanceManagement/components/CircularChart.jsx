@@ -107,13 +107,22 @@ export default function CircularChart({ CategoryData }) {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 gap: 5,
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                marginBottom: 5,
+                                maxWidth: 150
                             }}>
                                 <MaterialCommunityIcons
                                     name="checkbox-blank-circle"
                                     size={24}
                                     color={Colors.COLOR_LIST[index]} />
-                                <Text>{category.name}</Text>
+                                <Text
+                                    style={{
+                                        flexShrink: 1, // Cho phép text co lại khi cần
+                                        flexWrap: 'wrap',
+                                        maxWidth: 150,
+                                    }}
+
+                                >{category.name}</Text>
                             </View>
                         ))}
                         {/* Hiển thị Other nếu có */}
