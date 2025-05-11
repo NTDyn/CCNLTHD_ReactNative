@@ -2,9 +2,9 @@ import { View, TextInput, StyleSheet, Dimensions, Alert } from "react-native";
 import React, { useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 
-const WeatherSearch = ({ fetchWeatherData }) => {
+const WeatherSearch = ({ fetchWeatherData }) => { // hàm để lấy dữ liệu thời tiết từ API khi người dùng tìm kiếm. 
     const [cityName, setCityName] = useState('');
-    const handleSearch = () => {
+    const handleSearch = () => { // hàm xử lý sự kiện khi người dùng nhấn vào nút tìm kiếm
         if (cityName.trim() === '') {
             Alert.alert('Thông báo', 'Vui lòng nhập tên thành phố');
         } else {

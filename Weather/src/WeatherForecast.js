@@ -10,9 +10,10 @@ const WeatherForecast = ({ forecastData }) => {
     return (
         <View style={styles.forecastContainer}>
             <Text style={styles.forecastTitle}>Dự báo 5 ngày</Text>
-            {forecastData && forecastData.length > 0 ? (
+            {forecastData && forecastData.length > 0 ? ( // Kiểm tra có dữ liệu dự báo không
                 forecastData.map((item, index) => (
-                    <View key={index} style={styles.forecastItem}>
+                    // Sử dụng key={index}: Khóa duy nhất cho từng item trong danh sách
+                    <View key={index} style={styles.forecastItem}> 
                         <Text style={styles.forecastDay}>{getDayOfWeek(item.dt_txt)}</Text>
                         <Image
                             style={styles.forecastIcon}
@@ -22,7 +23,7 @@ const WeatherForecast = ({ forecastData }) => {
                         <Text style={styles.forecastDesc}>{item.weather[0].description}</Text>
                     </View>
                 ))
-            ) : (
+            ) : ( // Nếu không có dữ liệu
                 <Text style={styles.noDataText}>Không có dữ liệu dự báo</Text>
             )}
         </View>

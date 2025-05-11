@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import WeatherSearch from "./search";
 import WeatherForecast from "./WeatherForecast";
 
-const WeatherInfo = ({ weatherData, forecastData, fetchWeatherData }) => {
+const WeatherInfo = ({ weatherData, forecastData, fetchWeatherData }) => { // nhận 3 props từ component cha
     const {
         name,
         visibility,
@@ -14,15 +14,16 @@ const WeatherInfo = ({ weatherData, forecastData, fetchWeatherData }) => {
         sys: { sunrise, sunset },
     } = weatherData;
 
-    const [favorites, setFavorites] = useState([]);
+    const [favorites, setFavorites] = useState([]); // giá trị ban đầu là mảng rỗng
 
     // Tải danh sách vị trí yêu thích từ AsyncStorage
     useEffect(() => {
         const loadFavorites = async () => {
             try {
+                // sử dụng AsyncStorage.getItem(...) để đọc dữ liệu đã lưu
                 const storedFavorites = await AsyncStorage.getItem('favoriteCities');
                 if (storedFavorites) {
-                    setFavorites(JSON.parse(storedFavorites));
+                    setFavorites(JSON.parse(storedFavorites)); // chuyển từ chuỗi thành mảng
                 }
             } catch (error) {
                 console.error('Error loading favorites:', error);
@@ -34,12 +35,13 @@ const WeatherInfo = ({ weatherData, forecastData, fetchWeatherData }) => {
     // Lưu vị trí yêu thích
     const saveFavorite = async () => {
         try {
-            if (favorites.includes(name)) {
+            if (favorites.includes(name)) { // Kiểm tra thành phố ${name} có trong mảng chưa
                 Alert.alert('Thông báo', `${name} đã có trong danh sách yêu thích!`);
                 return;
             }
-            const newFavorites = [...favorites, name];
-            await AsyncStorage.setItem('favoriteCities', JSON.stringify(newFavorites));
+            const newFavorites = [...favorites, name]; //Tạo một mảng mới chứa tất cả các thành phố cũ trong favorites và thêm name vào cuối.
+            //  Dùng AsyncStorage.setItem() để lưu danh sách mới vào bộ nhớ cục bộ.
+            await AsyncStorage.setItem('favoriteCities', JSON.stringify(newFavorites)); // Dữ liệu phải chuyển thành chuỗi JSON
             setFavorites(newFavorites);
             Alert.alert('Thông báo', `${name} đã được thêm vào yêu thích!`);
         } catch (error) {
@@ -50,8 +52,9 @@ const WeatherInfo = ({ weatherData, forecastData, fetchWeatherData }) => {
 
     // Xóa vị trí yêu thích
     const removeFavorite = async (city) => {
-        try {
-            const newFavorites = favorites.filter(fav => fav !== city);
+        try { 
+            // Dùng filter() để tạo một mảng mới không chứa thành phố cần xóa.
+            const newFavorites = favorites.filter(fav => fav !== city); // fav => fav !== city: giữ lại các phần tử mà khác với city cần xóa
             await AsyncStorage.setItem('favoriteCities', JSON.stringify(newFavorites));
             setFavorites(newFavorites);
             Alert.alert('Thông báo', `${city} đã được xóa khỏi yêu thích!`);
@@ -62,23 +65,23 @@ const WeatherInfo = ({ weatherData, forecastData, fetchWeatherData }) => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container}> // SafeAreaView đảm bảo rằng nội dung không bị che khuất
             <ScrollView
                 contentContainerStyle={styles.scrollContent}
-                showsVerticalScrollIndicator={true}
-                bounces={true}
+                showsVerticalScrollIndicator={true} // hiển thị thanh cuộn dọc
+                bounces={true} // cho phép có hiệu ứng nhún khi người dùng kéo đến cuối danh sách.
             >
                 <WeatherSearch fetchWeatherData={fetchWeatherData} />
                 <View style={styles.cityHeader}>
                     <Text style={styles.title}>{name}</Text>
-                    <TouchableOpacity style={styles.favoriteButton} onPress={saveFavorite}>
+                    <TouchableOpacity style={styles.favoriteButton} onPress={saveFavorite}> // Khi nhấn vào, hàm saveFavorite sẽ được gọi để lưu thành phố vào danh sách yêu thích.
                         <Text style={styles.favoriteButtonText}>Lưu vào yêu thích</Text>
                     </TouchableOpacity>
                 </View>
-                {favorites.length > 0 && (
+                {favorites.length > 0 && ( // Kiểm tra nếu có thành phố yêu thích (tức là favorites không rỗng), nếu có, thì hiển thị phần yêu thích.
                     <View style={styles.favoritesContainer}>
                         <Text style={styles.favoritesTitle}>Vị trí yêu thích</Text>
-                        {favorites.map((city, index) => (
+                        {favorites.map((city, index) => ( // Duyệt qua danh sách thành phố yêu thích (favorites) và tạo ra các thành phần con cho từng thành phố trong danh sách.
                             <View key={index} style={styles.favoriteItem}>
                                 <TouchableOpacity
                                     onPress={() => fetchWeatherData(city)}
@@ -169,16 +172,16 @@ export default WeatherInfo;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 15,
+        marginTop: 15, // Tạo khoảng cách từ phía trên
     },
     scrollContent: {
-        paddingBottom: 20,
+        paddingBottom: 20, // Tạo khoảng cách ở dưới cùng của nội dung trong
     },
     cityHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
+        flexDirection: 'row', // Xếp các thành phần trong View theo chiều ngang (cùng một hàng)
+        alignItems: 'center', //  Căn giữa các thành phần theo chiều dọc
+        justifyContent: 'space-between', // Tạo khoảng cách đều giữa các thành phần
+        paddingHorizontal: 10, // Tạo khoảng cách 10px ở hai bên trái và phải của phần tử.
         marginTop: 10,
     },
     title: {
@@ -188,7 +191,7 @@ const styles = StyleSheet.create({
     },
     favoriteButton: {
         backgroundColor: '#e96e50',
-        padding: 8,
+        padding: 8, // Tạo khoảng cách bên trong
         borderRadius: 10,
     },
     favoriteButtonText: {
@@ -197,7 +200,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     favoritesContainer: {
-        margin: 10,
+        margin: 10, // Tạo khoảng cách xung quanh
         padding: 10,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 15,
@@ -206,7 +209,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: '#e96e50',
-        marginBottom: 10,
+        marginBottom: 10, 
     },
     favoriteItem: {
         flexDirection: 'row',
