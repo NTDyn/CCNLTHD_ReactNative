@@ -19,7 +19,6 @@ export default function CategoryList({ CategoryData }) {
     const calculateTotalCost = (category) => {
         let total = 0;
         category?.CategoryItems?.forEach(item => {
-
             total = total + item.cost
         })
         let leftCost = category?.assigned_budget - total;
@@ -51,8 +50,8 @@ export default function CategoryList({ CategoryData }) {
                         <View
                             style={styles.subContainer}
                         >
-                            <View>
-                                <Text style={styles.categoryText}>{category.name}</Text>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.categoryText} numberOfLines={3}>{category.name}</Text>
                                 <Text style={styles.itemCount}>{category?.CategoryItems?.length} Items</Text>
                             </View>
                             <Text style={styles.totalAmountText}>{formatCurrency(calculateTotalCost(category))}</Text>
@@ -85,9 +84,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 15
     },
+    textContainer: {
+        padding: 5,
+        flexShrink: 1, // Thêm dòng này
+    },
     categoryText: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 18,
+        flexWrap: 'wrap', // Thêm dòng này
     },
     itemCount: {
         fontFamily: 'outfit'
@@ -102,6 +106,5 @@ const styles = StyleSheet.create({
     totalAmountText: {
         fontWeight: '700',
         fontSize: 16,
-
     }
 })
