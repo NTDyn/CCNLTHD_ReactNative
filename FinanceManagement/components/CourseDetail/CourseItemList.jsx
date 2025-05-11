@@ -66,7 +66,7 @@ export default function CourseItemList({ categoryData, setUpdateRecord }) {
                         </TouchableOpacity>
                         {expandItem == index &&
                             <View style={styles.actionItemContainer}>
-                                <TouchableOpacity onPress={() => onDeleteItem(item)}>
+                                <TouchableOpacity onPress={() => onDeleteItem(item.id)}>
                                     <FontAwesome name="trash-o" size={24} color="red" />
                                 </TouchableOpacity>
 

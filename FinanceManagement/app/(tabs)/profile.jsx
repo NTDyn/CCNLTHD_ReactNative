@@ -12,7 +12,6 @@ const ProfileScreen = ({ navigation }) => {
         const acc = await getData('user');
         if (acc) {
             setUser(JSON.parse(acc));
-            console.log(acc)
         }
 
     }

@@ -60,7 +60,6 @@ export default function Header() {
                     > {user?.name}
                     </Text>
                 </View>
-                <Ionicons name="notifications" size={24} color="white" />
             </View>
         </View>
     )

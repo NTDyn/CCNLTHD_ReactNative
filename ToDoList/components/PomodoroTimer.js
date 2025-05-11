@@ -13,9 +13,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 
 const PomodoroTimer = () => {
-  const POMODORO_TIME = 25 * 60;
-  const SHORT_BREAK_TIME = 5 * 60;
-  const LONG_BREAK_TIME = 15 * 60;
+  const POMODORO_TIME = 10;
+  const SHORT_BREAK_TIME = 5;
+  const LONG_BREAK_TIME = 15;
 
   const [currentTime, setCurrentTime] = useState(POMODORO_TIME);
   const [isRunning, setIsRunning] = useState(false);
@@ -205,8 +205,8 @@ const PomodoroTimer = () => {
                 {mode === 'pomodoro'
                   ? 'Pomodoro'
                   : mode === 'shortBreak'
-                  ? 'Short Break'
-                  : 'Long Break'}
+                    ? 'Short Break'
+                    : 'Long Break'}
               </Text>
             </TouchableOpacity>
           ))}
@@ -225,8 +225,8 @@ const PomodoroTimer = () => {
               currentMode === 'pomodoro'
                 ? '#2575fc'
                 : currentMode === 'shortBreak'
-                ? '#00bcd4'
-                : '#28a745'
+                  ? '#00bcd4'
+                  : '#28a745'
             }
           />
           <Button title="Reset" onPress={() => setCurrentTime(POMODORO_TIME)} color="#6c757d" />
