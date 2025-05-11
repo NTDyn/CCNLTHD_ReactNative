@@ -9,7 +9,7 @@ import { getData } from '../utils/services';
 import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 
-
+// Lớp thêm quỹ chi tiêu mới 
 export default function AddNewCategory() {
 
     const [selectedIcon, setSelectedIcon] = useState('IC');
@@ -21,7 +21,10 @@ export default function AddNewCategory() {
 
     const onCreateCategory = async () => {
         setLoading(true)
+        // Lấy thông tin người dùng 
         const user = await getData('user');
+
+        // Thêm quỹ chi tiêu 
         const { data, error } = await supabase
             .from('Category')
             .insert([{
@@ -33,6 +36,7 @@ export default function AddNewCategory() {
             }])
             .select()
 
+        // Điều hướng đến trang chi tiết và truyền tham số id 
         if (data) {
             router.replace({
                 pathname: '/category-detail',
@@ -41,6 +45,7 @@ export default function AddNewCategory() {
                 }
             })
             setLoading(false)
+            // Thông báo thành công 
             Alert.alert('Success', 'Category Created!', [{ text: 'OK' }]);
         }
         if (error) {
@@ -61,16 +66,21 @@ export default function AddNewCategory() {
                     alignItems: 'center'
                 }}
             >
+                {/* Chọn icon  */}
                 <TextInput
                     style={[styles.iconInput, { backgroundColor: selectedColor }]}
                     maxLength={2}
                     onChangeText={(value) => setSelectedIcon(value)}
                 >{selectedIcon}</TextInput>
+
+                {/* Chọn màu sắc  */}
                 <ColorPicker
                     selectedColor={selectedColor}
                     setSelectedColor={(color) => setSelectedColor(color)}
                 ></ColorPicker>
             </View>
+
+            {/* Điền tên quỹ  */}
             <View
                 style={styles.inputView}
             >
@@ -84,6 +94,8 @@ export default function AddNewCategory() {
                     onChangeText={(value) => setCategoryName(value)}
                 ></TextInput>
             </View>
+
+            {/* Điền số tiền  */}
             <View
                 style={styles.inputView}
             >
@@ -98,6 +110,8 @@ export default function AddNewCategory() {
                     onChangeText={(value) => setTotalBudget(value)}
                 ></TextInput>
             </View>
+
+            {/* Nút thêm quỹ  */}
             <TouchableOpacity
                 style={styles.buttonCreate}
                 disabled={!categoryName || !totalBudget || loading}

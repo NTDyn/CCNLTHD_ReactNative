@@ -8,6 +8,7 @@ import CourseInfo from '../components/CourseDetail/CourseInfo';
 import Colors from '../utils/Colors';
 import CourseItemList from '../components/CourseDetail/CourseItemList';
 
+// Lớp xem thông tin quỹ 
 export default function CategoryDetail() {
 
     const { categoryId } = useLocalSearchParams();
@@ -18,6 +19,7 @@ export default function CategoryDetail() {
         categoryId && getCategoryDetail();
     }, [categoryId])
 
+    // Lấy thông tin quỹ từ database 
     const getCategoryDetail = async () => {
         const { data: Category, error } = await supabase
             .from('Category')

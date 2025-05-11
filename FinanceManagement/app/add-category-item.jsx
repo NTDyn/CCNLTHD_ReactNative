@@ -23,6 +23,7 @@ export default function AddCategoryItem() {
     const [note, setNote] = useState()
     const [loading, setLoading] = useState(false)
 
+    // Thư viện chọn hình 
     const onImagePick = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images', 'videos'],
@@ -36,6 +37,7 @@ export default function AddCategoryItem() {
         }
     }
 
+    // Hàm xử lý nút thêm mục chi tiêu 
     const onClickAdd = async () => {
         setLoading(true)
         const fileName = Date.now();
@@ -47,7 +49,7 @@ export default function AddCategoryItem() {
             })
         if (data) {
             const fileUrl = "https://zdtkbwdpucurfjbiyaps.supabase.co/storage/v1/object/public/images/" + fileName + ".png"
-
+            // Gửi data qua supabase để thêm mục chi tiêu 
             const { data, error } = await supabase
                 .from('CategoryItems')
                 .insert([{
@@ -60,6 +62,7 @@ export default function AddCategoryItem() {
 
             Alert.alert('Success', 'Item Created!', [{ text: 'OK' }]);
             setLoading(false)
+            // Điều hướng đến trang chi tiết và gửi categoryID
             router.replace({
                 pathname: '/category-detail',
                 params: {
@@ -79,12 +82,15 @@ export default function AddCategoryItem() {
                     padding: 20
                 }}
             >
+                {/* Nút chọn hình ảnh */}
                 <TouchableOpacity onPress={() => onImagePick()}>
                     <Image
                         source={{ uri: previewImage }}
                         style={styles.image}
                     ></Image>
                 </TouchableOpacity>
+
+                {/* Điền tên mục  */}
                 <View style={styles.textInputContainer}>
                     <MaterialIcons name="label" size={24} color={Colors.GRAY} />
                     <TextInput
@@ -95,6 +101,7 @@ export default function AddCategoryItem() {
 
                     </TextInput>
                 </View>
+                {/* Điền số tiền  */}
                 <View style={styles.textInputContainer}>
                     <Foundation name="dollar-bill" size={24} color={Colors.GRAY} />
                     <TextInput
@@ -106,6 +113,7 @@ export default function AddCategoryItem() {
 
                     </TextInput>
                 </View>
+                {/* Điền ghi chú  */}
                 <View style={styles.textInputContainer}>
                     <SimpleLineIcons name="note" size={24} color={Colors.GRAY} />
                     <TextInput
@@ -116,6 +124,7 @@ export default function AddCategoryItem() {
 
                     </TextInput>
                 </View>
+                {/* Nút thêm mục chi tiêu  */}
                 <TouchableOpacity
                     style={styles.button}
                     disabled={!name || !cost || loading}

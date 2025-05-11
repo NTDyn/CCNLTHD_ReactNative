@@ -4,11 +4,13 @@ import Colors from '../../utils/Colors'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
 import { supabase } from '../../utils/SupabaseConfig';
+import { formatCurrency } from '../../utils/FormatCurrency';
 
 export default function CourseItemList({ categoryData, setUpdateRecord }) {
 
     const [expandItem, setExpandItem] = useState();
 
+    // Hàm xóa các mục chi tiêu 
     const onDeleteItem = async (id) => {
         Alert.alert('Are you sure', 'Do you really want to delete this item', [
             {
@@ -46,6 +48,7 @@ export default function CourseItemList({ categoryData, setUpdateRecord }) {
                             onPress={() => setExpandItem(index)}
                             style={styles.itemContainer}
                         >
+                            {/* Hiển thị hình ảnh của mục chi tiêu  */}
                             <Image
                                 source={{ uri: item.image }}
                                 style={styles.image}
@@ -56,16 +59,20 @@ export default function CourseItemList({ categoryData, setUpdateRecord }) {
                                     marginLeft: 10
                                 }}
                             >
+                                {/* Hiển thị tên mục chi tiêu  */}
                                 <Text style={styles.name} >
 
                                     {item.name}
                                 </Text>
+                                {/* Hiển thị ghi chú cho mục  */}
                                 <Text style={styles.note}>{item.note}</Text>
                             </View>
-                            <Text style={styles.cost}>${item.cost}</Text>
+                            {/* Hiển thị số tiền của mục */}
+                            <Text style={styles.cost}>${formatCurrency(item.cost)}</Text>
                         </TouchableOpacity>
                         {expandItem == index &&
                             <View style={styles.actionItemContainer}>
+                                {/* Nút xóa mục chi tiêu  */}
                                 <TouchableOpacity onPress={() => onDeleteItem(item.id)}>
                                     <FontAwesome name="trash-o" size={24} color="red" />
                                 </TouchableOpacity>
