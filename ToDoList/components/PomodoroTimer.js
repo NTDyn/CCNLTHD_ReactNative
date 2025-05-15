@@ -71,7 +71,7 @@ const PomodoroTimer = () => {
     });
 
     if (currentMode === 'pomodoro') {
-      setCycles((prev) => prev + 1);
+      setCycles(cycles + 1);
       if (currentTask) {
         setTasks((prev) =>
           prev.map((task) =>
