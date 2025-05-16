@@ -3,13 +3,16 @@ import { View, Text, Image, Linking, StyleSheet, ScrollView, TouchableOpacity, A
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export default function NewsDetailScreen({ route }) {
   const { article } = route.params;
   const [isFavorite, setIsFavorite] = useState(false);
 
+
   useEffect(() => {
     checkIfFavorite();
   }, []);
+
 
   const checkIfFavorite = async () => {
     try {
@@ -22,10 +25,12 @@ export default function NewsDetailScreen({ route }) {
     }
   };
 
+
   const toggleFavorite = async () => {
     try {
       const stored = await AsyncStorage.getItem('favorites');
       let favorites = stored ? JSON.parse(stored) : [];
+
 
       if (isFavorite) {
         favorites = favorites.filter(item => item.url !== article.url);
@@ -35,6 +40,7 @@ export default function NewsDetailScreen({ route }) {
         Alert.alert("Thông báo", "Đã thêm vào mục yêu thích");
       }
 
+
       await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
       setIsFavorite(!isFavorite);
     } catch (error) {
@@ -43,16 +49,18 @@ export default function NewsDetailScreen({ route }) {
     }
   };
 
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', { 
-      day: 'numeric', 
-      month: 'long', 
+    return date.toLocaleDateString('vi-VN', {
+      day: 'numeric',
+      month: 'long',
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
   };
+
 
   return (
     <ScrollView style={styles.container}>
@@ -60,30 +68,35 @@ export default function NewsDetailScreen({ route }) {
       <View style={styles.header}>
        
         <TouchableOpacity style={styles.favoriteIcon} onPress={toggleFavorite}>
-          <Ionicons 
-            name={isFavorite ? "heart" : "heart-outline"} 
-            size={24} 
-            color={isFavorite ? "#FF6B6B" : "#fff"} 
+          <Ionicons
+            name={isFavorite ? "heart" : "heart-outline"}
+            size={24}
+            color={isFavorite ? "#FF6B6B" : "#fff"}
           />
         </TouchableOpacity>
       </View>
 
+
       {article.urlToImage && (
-        <Image 
-          source={{ uri: article.urlToImage }} 
+        <Image
+          source={{ uri: article.urlToImage }}
           style={styles.image}
           resizeMode="cover"
         />
       )}
 
+
       <View style={styles.content}>
+
 
         <View style={styles.categoryBadge}>
           <Text style={styles.categoryText}>{article.source?.name || 'Tin tức'}</Text>
         </View>
 
+
  
         <Text style={styles.title}>{article.title}</Text>
+
 
      
         <View style={styles.metaContainer}>
@@ -95,11 +108,14 @@ export default function NewsDetailScreen({ route }) {
           </Text>
         </View>
 
+
         <Text style={styles.description}>{article.description}</Text>
+
 
         <Text style={styles.contentText}>{article.content}</Text>
 
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={styles.readMoreButton}
           onPress={() => Linking.openURL(article.url)}
         >
@@ -110,6 +126,7 @@ export default function NewsDetailScreen({ route }) {
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -132,6 +149,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   favoriteIcon: {
+
 
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 20,

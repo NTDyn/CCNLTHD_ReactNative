@@ -16,15 +16,17 @@ import NewsItem from '../components/NewsItem';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function SearchScreen() {
   const [keyword, setKeyword] = useState('');
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
+
   const handleSearch = async () => {
     if (keyword.trim() === '') return;
-    Keyboard.dismiss(); 
+    Keyboard.dismiss();
     setLoading(true);
     try {
       const articles = await fetchNewsByKeyword(keyword);
@@ -35,10 +37,12 @@ export default function SearchScreen() {
     setLoading(false);
   };
 
+
   const clearSearch = () => {
     setKeyword('');
     setNews([]);
   };
+
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -65,6 +69,7 @@ export default function SearchScreen() {
             </TouchableOpacity>
           )}
         </View>
+
 
         {loading ? (
           <View style={styles.loadingContainer}>
@@ -96,6 +101,7 @@ export default function SearchScreen() {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   safeArea: {

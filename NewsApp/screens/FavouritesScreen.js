@@ -14,15 +14,19 @@ import NewsItem from '../components/NewsItem';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function FavoritesScreen() {
   const [favorites, setFavorites] = useState([]);
   const navigation = useNavigation();
 
+
   useFocusEffect(
+    // React.useCallback là một hook giúp "ghi nhớ" (memoize) hàm để không tạo lại hàm đó mỗi khi component re-render. Nó chỉ tạo lại hàm callback nếu bất kỳ giá trị nào trong mảng phụ thuộc thay đổi.
     React.useCallback(() => {
       loadFavorites();
     }, [])
   );
+
 
   const loadFavorites = async () => {
     try {
@@ -33,6 +37,7 @@ export default function FavoritesScreen() {
       console.error('Error loading favorites:', error);
     }
   };
+
 
   const removeFavorite = async (article) => {
     Alert.alert(
@@ -62,11 +67,12 @@ export default function FavoritesScreen() {
     );
   };
 
+
   const renderItem = ({ item }) => (
     <View style={styles.favoriteItem}>
-      <NewsItem 
-        article={item} 
-        onPress={() => navigation.navigate('Chi tiết', { article: item })} 
+      <NewsItem
+        article={item}
+        onPress={() => navigation.navigate('Chi tiết', { article: item })}
       />
       <TouchableOpacity
         style={styles.removeButton}
@@ -78,12 +84,13 @@ export default function FavoritesScreen() {
     </View>
   );
 
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.container}>
         <Text style={styles.headerTitle}>Bài viết yêu thích</Text>
-        
+       
         {favorites.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Ionicons name="heart-outline" size={60} color="#ddd" />
@@ -103,6 +110,7 @@ export default function FavoritesScreen() {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   safeArea: {

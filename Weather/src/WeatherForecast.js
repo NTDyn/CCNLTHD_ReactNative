@@ -13,7 +13,7 @@ const WeatherForecast = ({ forecastData }) => {
             {forecastData && forecastData.length > 0 ? ( // Kiểm tra có dữ liệu dự báo không
                 forecastData.map((item, index) => (
                     // Sử dụng key={index}: Khóa duy nhất cho từng item trong danh sách
-                    <View key={index} style={styles.forecastItem}> 
+                    <View key={index} style={styles.forecastItem}>
                         <Text style={styles.forecastDay}>{getDayOfWeek(item.dt_txt)}</Text>
                         <Image
                             style={styles.forecastIcon}

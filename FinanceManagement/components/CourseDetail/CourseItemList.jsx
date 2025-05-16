@@ -68,7 +68,7 @@ export default function CourseItemList({ categoryData, setUpdateRecord }) {
                                 <Text style={styles.note}>{item.note}</Text>
                             </View>
                             {/* Hiển thị số tiền của mục */}
-                            <Text style={styles.cost}>${formatCurrency(item.cost)}</Text>
+                            <Text style={styles.cost}>{formatCurrency(item.cost)}</Text>
                         </TouchableOpacity>
                         {expandItem == index &&
                             <View style={styles.actionItemContainer}>

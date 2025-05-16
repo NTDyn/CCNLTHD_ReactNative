@@ -3,19 +3,18 @@ import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { fetchCategoryNews } from '../services/NewsApi';
 import NewsItem from '../components/NewsItem';
 
+
 const CategoryNewsScreen = ({ route, navigation }) => {
   const { category } = route.params;
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [isMoreLoading, setIsMoreLoading] = useState(false);
-
+  const [loading, setLoading] = useState(true); // đang tải
+  const [isMoreLoading, setIsMoreLoading] = useState(false); // đang tải thêm
 
   useEffect(() => {
     loadArticles(page);
   }, []);
 
- 
   const loadArticles = async (currentPage) => {
     if (currentPage === 1) setLoading(true);
     else setIsMoreLoading(true);
@@ -34,7 +33,6 @@ const CategoryNewsScreen = ({ route, navigation }) => {
     setLoading(false);
     setIsMoreLoading(false);
   };
-
 
   const handleLoadMore = () => {
     const nextPage = page + 1;
