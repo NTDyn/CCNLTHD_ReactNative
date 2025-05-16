@@ -2,54 +2,56 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 const { width } = Dimensions.get('window');
+
 
 export default function NewsItem({ article, onPress }) {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity 
-      style={styles.container} 
+    <TouchableOpacity
+      style={styles.container}
       onPress={onPress}
       activeOpacity={0.9}
     >
-    
-      <Image 
+   
+      <Image
         source={
-          article.urlToImage 
-            ? { uri: article.urlToImage } 
+          article.urlToImage
+            ? { uri: article.urlToImage }
             : ""
-        } 
+        }
         style={styles.image}
         resizeMode="cover"
       />
-      
-    
+     
+   
       <LinearGradient
         colors={['transparent', 'rgba(0,0,0,0.7)']}
         style={styles.gradient}
       />
-      
+     
      
       <View style={styles.content}>
+
 
         <View style={[styles.categoryBadge, { backgroundColor: '#FF6B6B' }]}>
           <Text style={styles.categoryText}>{article.source?.name || 'News'}</Text>
         </View>
-        
+       
        
         <Text style={styles.title} numberOfLines={3}>{article.title}</Text>
-        
+       
        
         <View style={styles.footer}>
-        
+       
           <View style={styles.metaItem}>
             <Ionicons name="time-outline" size={14} color="rgba(255,255,255,0.8)" />
             <Text style={styles.metaText}>
               {new Date(article.publishedAt).toLocaleDateString()}
             </Text>
           </View>
-          
+         
    
           <TouchableOpacity style={styles.readMoreButton}
           onPress={()=>navigation.navigate('Chi tiết',{article})}
@@ -62,6 +64,7 @@ export default function NewsItem({ article, onPress }) {
     </TouchableOpacity>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

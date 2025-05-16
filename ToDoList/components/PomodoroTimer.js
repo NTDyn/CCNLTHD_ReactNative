@@ -13,9 +13,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 
 const PomodoroTimer = () => {
-  const POMODORO_TIME = 10;
-  const SHORT_BREAK_TIME = 5;
-  const LONG_BREAK_TIME = 15;
+  const POMODORO_TIME = 25 * 60;
+  const SHORT_BREAK_TIME = 5 * 60;
+  const LONG_BREAK_TIME = 15 * 60;
 
   const [currentTime, setCurrentTime] = useState(POMODORO_TIME);
   const [isRunning, setIsRunning] = useState(false);
@@ -71,7 +71,7 @@ const PomodoroTimer = () => {
     });
 
     if (currentMode === 'pomodoro') {
-      setCycles((prev) => prev + 1);
+      setCycles(cycles + 1);
       if (currentTask) {
         setTasks((prev) =>
           prev.map((task) =>
@@ -163,7 +163,7 @@ const PomodoroTimer = () => {
   const renderTask = ({ item }) => (
     <View style={styles.taskItem}>
       <TouchableOpacity onPress={() => toggleTaskCompletion(item.id)}>
-        <Text style={styles.taskButton}>✅</Text>
+        <Text style={styles.taskButton}>{item.completed ? '✅' : '⚪'}</Text>
       </TouchableOpacity>
       <Text
         style={[styles.taskText, item.completed && styles.taskCompleted]}

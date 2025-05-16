@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity } from
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+
 const categories = [
   { name: 'business', icon: 'briefcase' },
   { name: 'entertainment', icon: 'film' },
@@ -13,24 +14,27 @@ const categories = [
   { name: 'technology', icon: 'laptop' }
 ];
 
+
 const CategoryScreen = () => {
   const navigation = useNavigation();
+
 
   const handleCategoryPress = (category) => {
     navigation.navigate('CategoryNews', { category: category.name });
   };
 
+
   const renderCategoryItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.categoryCard}
       onPress={() => handleCategoryPress(item)}
       activeOpacity={0.8}
     >
       <View style={[styles.iconContainer, { backgroundColor: getCategoryColor(item.name) }]}>
-        <Ionicons 
-          name={item.icon} 
-          size={24} 
-          color="#fff" 
+        <Ionicons
+          name={item.icon}
+          size={24}
+          color="#fff"
         />
       </View>
       <Text style={styles.categoryName}>
@@ -38,6 +42,7 @@ const CategoryScreen = () => {
       </Text>
     </TouchableOpacity>
   );
+
 
   const getCategoryColor = (category) => {
     const colors = {
@@ -52,12 +57,13 @@ const CategoryScreen = () => {
     return colors[category] || '#4E8AF4';
   };
 
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>Danh mục tin tức</Text>
         <Text style={styles.subtitle}>Chọn danh mục bạn quan tâm</Text>
-        
+
         <FlatList
           data={categories}
           renderItem={renderCategoryItem}
@@ -70,6 +76,7 @@ const CategoryScreen = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -127,5 +134,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
 
 export default CategoryScreen;

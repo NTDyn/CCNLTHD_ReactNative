@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 
 const WeatherForecast = ({ forecastData }) => {
+
     const getDayOfWeek = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('vi-VN', { weekday: 'long' });
@@ -25,6 +26,7 @@ const WeatherForecast = ({ forecastData }) => {
             ) : (
                 <Text style={styles.noDataText}>Không có dữ liệu dự báo</Text>
             )}
+
         </View>
     );
 };
